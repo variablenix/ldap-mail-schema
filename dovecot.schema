@@ -1,0 +1,188 @@
+# dovecot-ldap ldapv3 directory schema
+#
+# Based on the qmail-ldap scheme available from
+# http://www.qmail-ldap.org/wiki/index.php/Qmail.schema
+# Adapted for use with dovecot home mail server by Markus Effinger
+# http://www.effinger.org
+#
+# Last change: January 11, 2009
+#
+# Created by: David E. Storey <dave@tamos.net>
+# Modified and included into qmail-ldap by Andre Oppermann <opi@nrg4u.com>
+#
+# Schema fixes by Mike Jackson <mjj@pp.fi>
+# Schema fixes by Christian Zoffoli (XMerlin) <czoffoli@xmerlin.org>
+#
+# General guideline:
+# 1. The language in this file is english
+# 2. Every OID in this file must look like this: ns.a.b.c.d, where
+#    ns - the official namespace of the effinger schema:
+#         1.3.6.1.4.1.32589
+#    a  - Reserved, must always be 1 for the dovecot scheme.
+#    b  - ID of object class - e.g.
+#         1 = dcMailUser
+#         2 = dcExternalMailAccount
+#         3 = dcMailAlias
+#         4 = dcPosixSubAccount
+#    c  - Entry type (1:attribute, 2:object)
+#    d  - Serial number (increased with every new entry)
+# 3. Every entry in this file MUST have a "DESC" field, containing a
+#    suitable description!
+# 4. New entries are to be kept as generic as possible.
+# 5. Attributes are listed in front of objects. All entries must be
+#    ordered by their serial number.
+#
+# This schema depends on:
+# - core.schema
+# - cosine.schema
+# - nis.schema
+#
+# Conflicting schema files:
+# - qmail.schema
+#
+ 
+# Attribute Type Definitions
+ 
+# dcMailUser Attributes
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.1.1.1
+	NAME 'dcMailMessageStore'
+	DESC 'Path to the maildir/mbox on the mail system'
+	EQUALITY caseExactIA5Match
+	SUBSTR caseIgnoreIA5SubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256}
+	SINGLE-VALUE )
+ 
+# dcExternalMailAccount Attributes
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.2.1.1
+	NAME 'dcSubMailAddress'
+	DESC 'A users secondary e-mail address for which mail from on another Mailserver has to be fetched'
+	EQUALITY caseIgnoreIA5Match
+	SUBSTR caseIgnoreIA5SubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.2.1.2
+	NAME 'dcAccountStatus'
+	DESC 'The status of a user account: active, noaccess, disabled, deleted'
+	EQUALITY caseIgnoreIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+	SINGLE-VALUE )
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.2.1.3
+	NAME 'dcSMTPServer'
+	DESC 'Outgoing mails should be delivered to this Mailserver via SMTP.'
+	EQUALITY caseIgnoreIA5Match
+	SUBSTR caseIgnoreIA5SubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256}
+	SINGLE-VALUE )
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.2.1.4
+	NAME 'dcSMTPLogin'
+	DESC 'Login credential to send Mail with the SMTP server'
+	EQUALITY caseExactIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+	SINGLE-VALUE )
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.2.1.5
+	NAME 'dcSMTPPassword'
+	DESC 'A separate text that stores the SMTP account password in clear text'
+	EQUALITY caseExactIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+	SINGLE-VALUE )
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.2.1.6
+	NAME 'dcPOP3Server'
+	DESC 'Incoming mails have to be downloaded from this server via POP3.'
+	EQUALITY caseIgnoreIA5Match
+	SUBSTR caseIgnoreIA5SubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256}
+	SINGLE-VALUE )
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.2.1.7
+	NAME 'dcPOP3Login'
+	DESC 'Login credential to receive Mail from the POP3 server'
+	EQUALITY caseExactIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+	SINGLE-VALUE )
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.2.1.8
+	NAME 'dcPOP3Password'
+	DESC 'A separate text that stores the POP3 account password in clear text'
+	EQUALITY caseExactIA5Match
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26
+	SINGLE-VALUE )
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.2.1.9
+	NAME 'dcMailQuota'
+	DESC 'The size of space the user can have until further messages get bounced.'
+	EQUALITY integerMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+	SINGLE-VALUE )
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.2.1.10
+	NAME 'dcMailSizeMax'
+	DESC 'The maximum size of a single messages the user accepts.'
+	EQUALITY integerMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27
+	SINGLE-VALUE )
+ 
+# dcMailAlias Attributes
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.3.1.1
+	NAME 'dcMailAlternateAddress'
+	DESC 'Secondary (alias) mailaddresses for the same user'
+	EQUALITY caseIgnoreIA5Match
+	SUBSTR caseIgnoreIA5SubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
+ 
+attributetype ( 1.3.6.1.4.1.32589.1.3.1.2
+	NAME 'dcMailForwardingAddress'
+	DESC 'Any mails addressed to aliases should be forwarded to this mail address'
+	EQUALITY caseIgnoreIA5Match
+	SUBSTR caseIgnoreIA5SubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
+ 
+# dcPosixSubAccount Attributes
+ 
+# We want another attribute pointing to the respective posixOwner with an LDAP URL
+attributetype ( 1.3.6.1.4.1.32589.1.4.1.1
+	NAME 'dcPosixOwnerURL'
+	DESC 'Identifies an URL associated with the posixOwner of the entry. Any type of labeled URL can be used.'
+	SUP labeledURI )
+ 
+# Object Class Definitions
+ 
+objectclass ( 1.3.6.1.4.1.32589.1.1.2.1
+	NAME 'dcMailUser'
+	DESC 'Dovecot-LDAP User'
+	SUP top
+	AUXILIARY
+	MUST ( dcMailMessageStore ) )
+ 
+objectclass ( 1.3.6.1.4.1.32589.1.2.2.1
+	NAME 'dcExternalMailAccount'
+	DESC 'Dovecot-LDAP external mail account'
+	SUP top
+	STRUCTURAL
+	MUST ( dcSubMailAddress $ dcAccountStatus)
+	MAY (
+		dcSMTPServer $ dcSMTPLogin $ dcSMTPPassword $
+		dcPOP3Server $ dcPOP3Login $ dcPOP3Password $
+		dcMailQuota $ dcMailSizeMax ) )
+ 
+objectclass ( 1.3.6.1.4.1.32589.1.3.2.1
+	NAME 'dcMailAlias'
+	DESC 'Dovecot Mail Alias'
+	SUP top
+	STRUCTURAL
+	MUST ( dcMailAlternateAddress )
+	MAY ( dcMailForwardingAddress ) )
+ 
+# ObjectClass used for dynamically retrieving the posixOwner
+objectClass ( 1.3.6.1.4.1.32589.1.4.2.1
+	NAME 'dcPosixSubAccount'
+	DESC 'LDAP-URL for retrieving the respective posixAccount of an entry'
+	SUP top
+	AUXILIARY
+	MAY ( dcPosixOwnerURL ) )

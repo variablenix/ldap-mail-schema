@@ -1,0 +1,30 @@
+# Schema as required by Postfix: http://www.postfix.org/LDAP_README.html
+
+attributetype (
+  1.3.6.1.4.1.4203.666.1.200
+  NAME 'mailacceptinggeneralid'
+  DESC 'Postfix mail local address alias attribute'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+  )
+
+attributetype (
+  1.3.6.1.4.1.4203.666.1.201
+  NAME 'maildrop'
+  DESC 'Postfix mail final destination attribute'
+  EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024}
+  )
+
+objectclass (
+  1.3.6.1.4.1.4203.666.1.100
+  NAME 'postfixUser'
+  DESC 'Postfix mail user class'
+  SUP top
+  AUXILIARY
+  MAY  (
+        mailacceptinggeneralid $ maildrop
+       )
+  )

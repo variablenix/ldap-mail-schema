@@ -50,6 +50,9 @@ attributetype ( 1.3.6.1.4.1.29426.1.10.8 NAME 'mailStorageDirectory'
         EQUALITY caseExactIA5Match
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.26 SINGLE-VALUE )
 
+attributetype: ( 1.3.6.1.4.1.29426.1.10.9 NAME ( 'mailSieveRuleSource' ) 
+	DESC 'Sun ONE Messaging Server defined attribute' 
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26  X-ORIGIN 'Sun ONE Messaging Server' )
 
 #
 # Objects: 1.3.6.1.4.1.29426.1.2.2.x
@@ -61,7 +64,7 @@ objectclass ( 1.3.6.1.4.1.29426.1.2.2.1 NAME 'PostfixBookMailAccount'
 	MUST ( mail )
         MAY ( mailHomeDirectory $ mailAlias $ mailGroupMember 
 		$ mailUidNumber $ mailGidNumber $ mailEnabled
-		$ mailQuota $mailStorageDirectory ) )
+		$ mailQuota $mailStorageDirectory $mailSieveRuleSource ) )
 
 objectclass ( 1.3.6.1.4.1.29426.1.2.2.2 NAME 'PostfixBookMailForward'
         SUP top AUXILIARY

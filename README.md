@@ -8,4 +8,4 @@ This is a collection of LDAP schemas that could be used in a virtual mail enviro
 * mailSieveRuleSource
 * mailForwardingAddress
 
-Both postfix and dovecot benefit from using [postfix-book.schmea](https://github.com/variablenix/ldap-mail-schema/blob/master/postfix-book.schema) as their primary schema source.
+Both postfix and dovecot benefit from using [postfix-book.schema](https://github.com/variablenix/ldap-mail-schema/blob/master/postfix-book.schema) as their primary schema source.

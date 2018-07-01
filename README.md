@@ -1,11 +1,13 @@
-# ldap-mail-schema
+# LDAP Mail Schema
 
-This is a collection of LDAP schemas that could be used in a virtual mail environment consisting of Postfix, Dovecot, SASL and Roundcube.
+This is a collection of LDAP schemas that could be used in a virtual mail environment consisting of Postfix, Dovecot and Roundcube.
 
 ## Postfix and Dovecot
-[postfix-book.schema](https://github.com/variablenix/ldap-mail-schema/blob/master/postfix-book.schema) was originally available from _http://www.postfix-buch.com/download/postfix-book.schema.gz_ but is no longer around. Two new attributes have since been added to further enhance the schema without the need of loading multiple email specific schemas. These attributes include:
+[postfix-book.schema](https://github.com/variablenix/ldap-mail-schema/blob/master/postfix-book.schema) was originally available from _http://www.postfix-buch.com/download/postfix-book.schema.gz_ but is no longer around. Two new attributes have since been added to further enhance the schema to avoid having to load multiple different mail specific schemas. These attributes include:
 
-* mailSieveRuleSource
-* mailForwardingAddress
+```
+mailSieveRuleSource
+mailForwardingAddress
+```
 
-Both postfix and dovecot benefit from using [postfix-book.schema](https://github.com/variablenix/ldap-mail-schema/blob/master/postfix-book.schema) as their primary schema source.
+Both Postfix and Dovecot benefit from using [postfix-book.schema](https://github.com/variablenix/ldap-mail-schema/blob/master/postfix-book.schema) as their primary schema source.
